@@ -12,5 +12,19 @@ List<LeaveDto> leaves = new List<LeaveDto>
 };
 //GET /leaves
 app.MapGet("/leaves", () => leaves);
+//GET /leaves/{id}
+app.MapGet("/leaves/{id}", (int id) =>
+{
+    var leave = leaves.FirstOrDefault(l => l.Id == id);
+    if (leave is null)
+    {
+        return Results.Problem(
+            statusCode: 404,
+            title: "Leave Not Found",
+            detail: $"Leave with ID {id} was not found."
+        );
+    }
+    return Results.Ok(leave);
+});
 
 app.Run();
