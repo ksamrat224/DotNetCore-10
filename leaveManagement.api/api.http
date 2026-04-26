@@ -14,3 +14,15 @@ Content-Type: application/json
     "endDate": "2024-10-05T00:00:00",
     "reason": "Personal matters"
 }
+
+###
+PUT http://localhost:5073/leaves/3
+Content-Type: application/json
+
+{
+    "employeeName": "Alice Williams",
+    "leaveType": "Personal Leave",
+    "startDate": "2024-10-01T00:00:00",
+    "endDate": "2024-10-05T00:00:00",
+    "reason": "Updated reason for leave"
+}

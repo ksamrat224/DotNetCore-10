@@ -46,4 +46,30 @@ app.MapPost("/leaves", (CreateLeaveDto newLeave) =>
     leaves.Add(leave);
     return Results.CreatedAtRoute(GetLeaveEndpointName, new { id = leave.Id }, leave);
 });
+//PUT /leaves/{id}
+app.MapPut("/leaves/{id}", (int id, UpdateLeaveDto updatedLeave) =>
+{
+    var index = leaves.FindIndex(l => l.Id == id);
+    
+    if (index == -1)
+    {
+        return Results.Problem(
+            statusCode: 404,
+            title: "Leave Not Found",
+            detail: $"Leave with ID {id} was not found."
+        );
+    }
+
+    leaves[index] = new LeaveDto(
+        Id: id,
+        EmployeeName: updatedLeave.EmployeeName,
+        LeaveType: updatedLeave.LeaveType,
+        StartDate: updatedLeave.StartDate,
+        EndDate: updatedLeave.EndDate,
+        Reason: updatedLeave.Reason
+    );
+
+   return Results.Ok(new { message = $"Leave with ID {id} has been updated successfully.", data = leaves[index] });
+});
+
 app.Run();
