@@ -2,3 +2,15 @@ GET http://localhost:5073/leaves
 
 ###
 GET http://localhost:5073/leaves/4
+
+###
+POST http://localhost:5073/leaves
+Content-Type: application/json
+
+{
+    "employeeName": "Alice Williams",
+    "leaveType": "Personal Leave",
+    "startDate": "2024-10-01T00:00:00",
+    "endDate": "2024-10-05T00:00:00",
+    "reason": "Personal matters"
+}

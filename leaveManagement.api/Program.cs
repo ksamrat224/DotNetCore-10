@@ -1,4 +1,5 @@
 using leaveManagement.api.Dtos;
+const string GetLeaveEndpointName = "GetLeaveById";
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -12,6 +13,8 @@ List<LeaveDto> leaves = new List<LeaveDto>
 };
 //GET /leaves
 app.MapGet("/leaves", () => leaves);
+
+
 //GET /leaves/{id}
 app.MapGet("/leaves/{id}", (int id) =>
 {
@@ -25,6 +28,22 @@ app.MapGet("/leaves/{id}", (int id) =>
         );
     }
     return Results.Ok(leave);
-});
+}).WithName(GetLeaveEndpointName);
 
+//POST /leaves
+app.MapPost("/leaves", (CreateLeaveDto newLeave) =>
+{
+    //In a real application, we would save the new leave to the database here
+    //For this example, we'll just add it to the in-memory list
+    LeaveDto leave = new LeaveDto(
+        Id: leaves.Count + 1, // Generate a new ID based on the count of existing leaves
+        EmployeeName: newLeave.EmployeeName,
+        LeaveType: newLeave.LeaveType,
+        StartDate: newLeave.StartDate,
+        EndDate: newLeave.EndDate,
+        Reason: newLeave.Reason
+    );
+    leaves.Add(leave);
+    return Results.CreatedAtRoute(GetLeaveEndpointName, new { id = leave.Id }, leave);
+});
 app.Run();
