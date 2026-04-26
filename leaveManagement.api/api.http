@@ -1,7 +1,7 @@
 GET http://localhost:5073/leaves
 
 ###
-GET http://localhost:5073/leaves/4
+GET http://localhost:5073/leaves/3
 
 ###
 POST http://localhost:5073/leaves
@@ -26,3 +26,6 @@ Content-Type: application/json
     "endDate": "2024-10-05T00:00:00",
     "reason": "Updated reason for leave"
 }
+
+###
+DELETE http://localhost:5073/leaves/3

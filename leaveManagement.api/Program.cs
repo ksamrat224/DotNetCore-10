@@ -72,4 +72,20 @@ app.MapPut("/leaves/{id}", (int id, UpdateLeaveDto updatedLeave) =>
    return Results.Ok(new { message = $"Leave with ID {id} has been updated successfully.", data = leaves[index] });
 });
 
+//DELETE /leaves/{id}
+app.MapDelete("/leaves/{id}", (int id) =>
+{
+    var index = leaves.FindIndex(l => l.Id == id);  
+    if (index == -1)
+    {
+        return Results.Problem(
+            statusCode: 404,
+            title: "Leave Not Found",
+            detail: $"Leave with ID {id} was not found."
+        );
+    }
+    leaves.RemoveAt(index);
+    return Results.Ok(new { message = $"Leave with ID {id} has been deleted successfully." });
+});
+
 app.Run();
